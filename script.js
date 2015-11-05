@@ -1,11 +1,7 @@
 $(document).ready(function () {
     
     var player1 = true,
-        player2 = false;
-    
-    var checkWin = function () {
-        
-    };
+        player2 = false,
     
     var playGame = function () {
         var clickedCell = $(this).children();
