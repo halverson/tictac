@@ -1,19 +1,27 @@
 $(document).ready(function () {
     
     var player1 = true,
-        player2 = false,
+        player2 = false;
+    
+    var changePlayer = function () {
+        if  (player1 === true) {
+            player1 = false;
+            player2 = true;
+        } else {
+            player1 = true;
+            player2 = false;
+        }
+    };
     
     var playGame = function () {
         var clickedCell = $(this).children();
         
         if (player1 === true) {
             clickedCell.addClass("ex");
-            player1 = false;
-            player2 = true;
+            changePlayer();
         } else {
             clickedCell.addClass("oh");
-            player1 = true;
-            player2 = false;
+            changePlayer();
         }
     };
     
