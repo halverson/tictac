@@ -4,7 +4,7 @@ $(document).ready(function () {
         player2 = false;
     
     var changePlayer = function () {
-        if  (player1 === true) {
+        if (player1 === true) {
             player1 = false;
             player2 = true;
         } else {
@@ -16,13 +16,18 @@ $(document).ready(function () {
     var playGame = function () {
         var clickedCell = $(this).children();
         
-        if (player1 === true) {
-            clickedCell.addClass("ex");
-            changePlayer();
+        if (clickedCell.is(".ex, .oh")) {
+            alert("Choose a different square, gosh.");
         } else {
-            clickedCell.addClass("oh");
-            changePlayer();
+            if (player1 === true) {
+                clickedCell.addClass("ex");
+                changePlayer();
+            } else {
+                clickedCell.addClass("oh");
+                changePlayer();
+            }
         }
+
     };
     
     $(".square").on('click', playGame);
