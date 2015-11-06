@@ -1,29 +1,18 @@
 $(document).ready(function () {
     
     var player1 = true,
-        player2 = false,
-        sq1 = $("#1"),
-        sq2 = $("#2"),
-        sq3 = $("#3"),
-        sq4 = $("#4"),
-        sq5 = $("#5"),
-        sq6 = $("#6"),
-        sq7 = $("#7"),
-        sq8 = $("#8"),
-        sq9 = $("#9");
+        player2 = false;
     
-    var win1 = [sq1, sq2, sq3],
-        win2 = [sq4, sq5, sq6],
-        win3 = [sq7, sq8, sq9],
-        win4 = [sq1, sq4, sq7],
-        win5 = [sq2, sq5, sq8],
-        win6 = [sq3, sq6, sq9],
-        win7 = [sq1, sq5, sq9],
-        win8 = [sq3, sq5, sq7];
+    var win1 = [$("#1").children(), $("#2").children(), $("#3").children()],
+        win2 = [$("#4").children(), $("#5").children(), $("#6").children()],
+        win3 = [$("#7").children(), $("#8").children(), $("#9").children()],
+        win4 = [$("#1").children(), $("#4").children(), $("#7").children()],
+        win5 = [$("#2").children(), $("#5").children(), $("#8").children()],
+        win6 = [$("#3").children(), $("#6").children(), $("#9").children()],
+        win7 = [$("#1").children(), $("#5").children(), $("#9").children()],
+        win8 = [$("#3").children(), $("#5").children(), $("#7").children()];
     
-    var checkWin = function (x) {
-        
-    };
+    var winArrays = [win1, win2, win3, win4, win5, win6, win7, win8];
     
     var changePlayer = function () {
         if (player1 === true) {
@@ -35,12 +24,43 @@ $(document).ready(function () {
         }
     };
     
-    var makeMove = function (x) {
-        var x;
-        if (player1 === true) {
-            x.addClass("ex");
+    var checkWin = function (x, y) {
+        var a = x[0],
+            b = x[1],
+            c = x[2];
+        
+        if (a.hasClass(y) === b.hasClass(y) === c.hasClass(y)) {
+            if (y === "ex") {
+                $("#info").text("Player 1 is the winner!");
+            } else {
+                $("#info").text("Player 2 is the winner!");
+            }
         } else {
-            x.addClass("oh");
+            $("#info").text("Try harder!");
+            console.log("No Win");
+        }
+    };
+    
+    var makeMove = function (z) {
+        var plX = "ex",
+            plO = "oh";
+        
+        if (player1 === true) {
+            z.addClass("ex");
+            
+            for (var i = 0; i < winArrays.length; i++) {
+                console.log(winArrays[i]);
+                checkWin(winArrays[i], "ex");
+            }
+            
+        } else {
+            z.addClass("oh");
+            
+            for (var i = 0; i < winArrays.length; i++) {
+                console.log(winArrays[i]);
+                checkWin(winArrays[i], "oh");
+            }
+            
         }
         changePlayer();
     };
