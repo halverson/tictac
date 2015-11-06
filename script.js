@@ -29,11 +29,11 @@ $(document).ready(function () {
             b = x[1],
             c = x[2];
         
-        if (a.hasClass(y) === b.hasClass(y) === c.hasClass(y)) {
+        if (a.hasClass(y) && b.hasClass(y) && c.hasClass(y)) {
             if (y === "ex") {
-                $("#info").text("Player 1 is the winner!");
+                $("#info").text("Player X is the winner!");
             } else {
-                $("#info").text("Player 2 is the winner!");
+                $("#info").text("Player O is the winner!");
             }
         } else {
             $("#info").text("Try harder!");
@@ -48,18 +48,18 @@ $(document).ready(function () {
         if (player1 === true) {
             z.addClass("ex");
             
-            for (var i = 0; i < winArrays.length; i++) {
+            /*for (var i = 0; i < winArrays.length; i++) {
                 console.log(winArrays[i]);
                 checkWin(winArrays[i], "ex");
-            }
+            }*/
             
         } else {
             z.addClass("oh");
             
-            for (var i = 0; i < winArrays.length; i++) {
+            /*for (var i = 0; i < winArrays.length; i++) {
                 console.log(winArrays[i]);
                 checkWin(winArrays[i], "oh");
-            }
+            }*/
             
         }
         changePlayer();
