@@ -17,8 +17,9 @@ $(document).ready(function () {
         var clickedCell = $(this).children();
         
         if (clickedCell.is(".ex, .oh")) {
-            alert("Choose a different square, gosh.");
+            $("#info").text("Choose a different square, gosh!");
         } else {
+            $("#info").text("Play On!");
             if (player1 === true) {
                 clickedCell.addClass("ex");
                 changePlayer();
