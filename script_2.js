@@ -60,6 +60,7 @@ $(document).ready(function () {
                 }
             } else {
                 $("#info").text("Choose a different square");
+                console.log("Space " + spaceNum + " is already taken.");
             }
         })
         
