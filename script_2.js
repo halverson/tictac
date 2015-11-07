@@ -4,7 +4,9 @@ $(document).ready(function () {
         player2 = false,
         
         positions = ["", "", "", "", "", "", "", "", ""],
-        boardFull = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        boardFull = [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        
+        board2D =[[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     
     var changePlayer = function () {
         if (player1 === true) {
