@@ -1,10 +1,7 @@
 $(document).ready(function () {
     
-    var player1,
-        player2,
-        gameOver = false,
-        
-        winCombos = [[1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7], [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]],
+    var player1 = true,
+        player2 = false,
         
         positions = ["", "", "", "", "", "", "", "", ""],
         boardFull = [0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -37,61 +34,49 @@ $(document).ready(function () {
         return element == 1;
     };
     
-    while (gameOver === false) {
+    var playerMove = function (a, b) {
+        if (player1 === true) {
+            a.text("X");
+            positions[b - 1] = "X";
+        } else {
+            a.text("O");
+            positions[b - 1] = "O";
+        }
         
-        /*Reset board at start of game*/
+        fillBoard();
+        console.log(b);
+        console.log(positions);
+        console.log(boardFull);
+        changePlayer();
+    };
+    
+    var newGame = function () {
+        player1 = true;
+        player2 = false;
+        var x = $(".square").children();
+        x.text("");
         for (var i = 0; i < 9; i++) {
             positions[i] = "";
             boardFull[i] = 0;
         }
-        
-        /*Reset player status at start of game*/
-        player1 = true;
-        player2 = false;
-        
-        $(".square").click(function () {
-            var spaceNum = $(this).attr("id");
-            var chosenSpace = $(this).children();
+    };
 
-            if (checkEmptySpace(spaceNum) === true) {
-                if (player1 === true) {
-                    chosenSpace.text("X");
-                    positions[spaceNum - 1] = "X";
-                    fillBoard();
+    $(".square").click(function () {
+        var spaceNum = $(this).attr("id");
+        var chosenSpace = $(this).children();
 
-                    console.log(spaceNum);
-                    console.log(positions);
-                    console.log(boardFull);
-                    
-                    if (boardFull.every(isFull)) {
-                        $("#info").text("It's a draw!");
-                    }
-                    
-                    changePlayer();
-                    
-                } else if (player2 === true) {
-                    chosenSpace.text("O");
-                    positions[spaceNum - 1] = "O";
-                    fillBoard();
-
-                    console.log(spaceNum);
-                    console.log(positions);
-                    console.log(boardFull);
-                    
-                    if (boardFull.every(isFull)) {
-                        $("#info").text("It's a draw!");
-                    }
-                    
-                    changePlayer();
-                    
-                }
-            } else {
-                $("#info").text("Choose a different square");
-                console.log("Space " + spaceNum + " is already taken.");
+        if (checkEmptySpace(spaceNum) === true) {
+            playerMove(chosenSpace, spaceNum);
+            
+            if (boardFull.every(isFull)) {
+                $("#info").text("It's a draw!");
+                $(".restart").css("visibility", "visible")
             }
-        })
-        
-        gameOver = true;
-    }
+            
+        } else {
+            $("#info").text("Choose a different square");
+            console.log("Space " + spaceNum + " is already taken.");
+        }
+    })
     
 });

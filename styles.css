@@ -115,3 +115,7 @@ h1 {
 .oh:before {
     content: "O";
 }
+
+.restart {
+    visibility: hidden;
+}
