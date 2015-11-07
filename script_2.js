@@ -18,6 +18,12 @@ $(document).ready(function () {
         }
     };
     
+    var checkEmptySpace = function (x) {
+        if (positions[x - 1] === "") {
+            return true;
+        }
+    };
+    
     while (gameOver === false) {
         
         /*Reset board at start of game*/
@@ -30,16 +36,34 @@ $(document).ready(function () {
         player2 = false;
         
         $(".square").click(function () {
+            var spaceNum = $(this).attr("id");
             var chosenSpace = $(this).children();
-            
-            if (player1 === true) {
-                chosenSpace.text("X");
-            } else if (player2 === true) {
-                chosenSpace.text("O");
+
+            if (checkEmptySpace(spaceNum) === true) {
+                if (player1 === true) {
+                    chosenSpace.text("X");
+                    positions[spaceNum - 1] = "X";
+
+                    console.log(spaceNum);
+                    console.log(positions);
+                    
+                    changePlayer();
+
+                } else if (player2 === true) {
+                    chosenSpace.text("O");
+                    positions[spaceNum - 1] = "O";
+
+                    console.log(spaceNum);
+                    console.log(positions);
+                    
+                    changePlayer();
+                }
+            } else {
+                $("#info").text("Choose a different square");
             }
-            
-        changePlayer();
         })
+        
+        gameOver = true;
     }
     
 });
