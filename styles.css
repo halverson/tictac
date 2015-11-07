@@ -116,6 +116,6 @@ h1 {
     content: "O";
 }
 
-.restart {
+#restart {
     visibility: hidden;
 }

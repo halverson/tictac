@@ -49,17 +49,6 @@ $(document).ready(function () {
         console.log(boardFull);
         changePlayer();
     };
-    
-    var newGame = function () {
-        player1 = true;
-        player2 = false;
-        var x = $(".square").children();
-        x.text("");
-        for (var i = 0; i < 9; i++) {
-            positions[i] = "";
-            boardFull[i] = 0;
-        }
-    };
 
     $(".square").click(function () {
         var spaceNum = $(this).attr("id");
@@ -70,13 +59,28 @@ $(document).ready(function () {
             
             if (boardFull.every(isFull)) {
                 $("#info").text("It's a draw!");
-                $(".restart").css("visibility", "visible")
+                $("#restart").css("visibility", "visible");
             }
             
         } else {
             $("#info").text("Choose a different square");
             console.log("Space " + spaceNum + " is already taken.");
         }
-    })
+    });
+    
+    $("#restart").click(function () {
+        player1 = true;
+        player2 = false;
+        var x = $(".square").children();
+        x.text("");
+        $("#restart").css("visibility", "hidden");
+        $("#info").text("Play On!");
+        for (var i = 0; i < 9; i++) {
+            positions[i] = "";
+            boardFull[i] = 0;
+        }
+        
+        console.log("New Game! " + positions + " " + boardFull);
+    });
     
 });
