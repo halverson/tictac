@@ -19,6 +19,8 @@ $(document).ready(function () {
     };
     
     var checkEmptySpace = function (x) {
+        
+        
         if (positions[x - 1] === "") {
             return true;
         }
