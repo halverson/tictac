@@ -5,14 +5,24 @@ $(document).ready(function () {
         moveCounter = 0,
         displayText = $("#info"),
         restartBttn = $("#restart"),
+        n = 3;
         
-        board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    var board = new Array();
     
-    var drawBoard = function () {
+    var createBoard = function () {
+        for (var i = 0; i < n; i++) {
+            board[i] = new Array();
+            for (var j = 0; j < n; j++) {
+                board[i][j] = 0;
+            }
+        }
+    };
+    
+    var renderBoard = function () {
         
         /*Draw board div's and h1's with row and col attributes based on *board* array.*/
-        for (var i = 0; i < board.length; i++) {
-            for (var j = 0; j < board[i].length; j++) {
+        for (var i = 0; i < n; i++) {
+            for (var j = 0; j < n; j++) {
                 $("#board").append("<div class='square'><h1></h1></div>");
                 $(".square:last-child").attr("row", i);
                 $(".square:last-child").attr("col", j);
@@ -33,43 +43,43 @@ $(document).ready(function () {
     var checkWin = function (player, row, col) {
         
         /*Check if there is a win in the current row*/
-        for (var i = 0; i < board.length; i++) {
+        for (var i = 0; i < n; i++) {
             if (board[row][i] != player) {
                 break;
             }
-            if (i == board.length - 1) {
+            if (i == n - 1) {
                 return true;
             }
         }
         
         /*Check if there is a win in the current column*/
-        for (var i = 0; i < board.length; i++) {
+        for (var i = 0; i < n; i++) {
             if (board[i][col] != player) {
                 break;
             }
-            if (i == board.length - 1) {
+            if (i == n - 1) {
                 return true;
             }
         }
         
         /*Check if there is a win in the \ diagonal*/
         if (row === col) {
-            for (var i = 0; i < board.length; i++) {
+            for (var i = 0; i < n; i++) {
                 if (board[i][i] != player) {
                     break;
                 }
-                if (i == board.length - 1) {
+                if (i == n - 1) {
                     return true;
                 }
             }
         }
         
         /*Check if there is a win in the anti-diagonal*/
-        for (var i = 0; i < board.length; i++) {
-            if (board[i][(board.length - 1) - i] != player) {
+        for (var i = 0; i < n; i++) {
+            if (board[i][(n - 1) - i] != player) {
                 break;
             }
-            if (i == board.length - 1) {
+            if (i == n - 1) {
                 return true;
             }
         }
@@ -111,7 +121,8 @@ $(document).ready(function () {
         console.log("Turn " + moveCounter);
     };
     
-    drawBoard();
+    createBoard();
+    renderBoard();
 
     $(".square").click(function () {
         var spaceRow = $(this).attr("row"); /*Get the clicked square's row number.*/
