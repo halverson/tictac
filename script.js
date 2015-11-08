@@ -1,20 +1,36 @@
 $(document).ready(function () {
     
     var player1 = true,
-        player2 = false;
+        player2 = false,
+        moveCounter = 0,
+        displayText = $("#info"),
+        restartBttn = $("#restart"),
+        n = 3;
+        
+    var board = new Array();
     
-    var win1 = [$("#1").children(), $("#2").children(), $("#3").children()],
-        win2 = [$("#4").children(), $("#5").children(), $("#6").children()],
-        win3 = [$("#7").children(), $("#8").children(), $("#9").children()],
-        win4 = [$("#1").children(), $("#4").children(), $("#7").children()],
-        win5 = [$("#2").children(), $("#5").children(), $("#8").children()],
-        win6 = [$("#3").children(), $("#6").children(), $("#9").children()],
-        win7 = [$("#1").children(), $("#5").children(), $("#9").children()],
-        win8 = [$("#3").children(), $("#5").children(), $("#7").children()];
+    var createBoard = function () {
+        for (var i = 0; i < n; i++) {
+            board[i] = new Array();
+            for (var j = 0; j < n; j++) {
+                board[i][j] = 0;
+            }
+        }
+    };
     
-    var winArrays = [win1, win2, win3, win4, win5, win6, win7, win8];
+    var renderBoard = function () {
+        
+        /*Draw board div's and h1's with row and col attributes based on *board* array.*/
+        for (var i = 0; i < n; i++) {
+            for (var j = 0; j < n; j++) {
+                $("#board").append("<div class='square'><h1></h1></div>");
+                $(".square:last-child").attr("row", i);
+                $(".square:last-child").attr("col", j);
+            }
+        }
+    };
     
-    var changePlayer = function () {
+    var changePlayer = function () { /*Change who's turn it is when called.*/
         if (player1 === true) {
             player1 = false;
             player2 = true;
@@ -24,60 +40,118 @@ $(document).ready(function () {
         }
     };
     
-    var checkWin = function (x, y) {
-        var a = x[0],
-            b = x[1],
-            c = x[2];
+    var checkWin = function (player, row, col) {
         
-        if (a.hasClass(y) && b.hasClass(y) && c.hasClass(y)) {
-            if (y === "ex") {
-                $("#info").text("Player X is the winner!");
-            } else {
-                $("#info").text("Player O is the winner!");
+        /*Check if there is a win in the current row*/
+        for (var i = 0; i < n; i++) {
+            if (board[row][i] != player) {
+                break;
             }
-        } else {
-            $("#info").text("Try harder!");
-            console.log("No Win");
+            if (i == n - 1) {
+                return true;
+            }
         }
+        
+        /*Check if there is a win in the current column*/
+        for (var i = 0; i < n; i++) {
+            if (board[i][col] != player) {
+                break;
+            }
+            if (i == n - 1) {
+                return true;
+            }
+        }
+        
+        /*Check if there is a win in the \ diagonal*/
+        if (row === col) {
+            for (var i = 0; i < n; i++) {
+                if (board[i][i] != player) {
+                    break;
+                }
+                if (i == n - 1) {
+                    return true;
+                }
+            }
+        }
+        
+        /*Check if there is a win in the anti-diagonal*/
+        for (var i = 0; i < n; i++) {
+            if (board[i][(n - 1) - i] != player) {
+                break;
+            }
+            if (i == n - 1) {
+                return true;
+            }
+        }
+        
     };
     
-    var makeMove = function (z) {
-        var plX = "ex",
-            plO = "oh";
+    var playerMove = function (a, b, c) { /*Draw appropriate token and update *board* array.*/
+        
+        var p;
         
         if (player1 === true) {
-            z.addClass("ex");
-            
-            /*for (var i = 0; i < winArrays.length; i++) {
-                console.log(winArrays[i]);
-                checkWin(winArrays[i], "ex");
-            }*/
+            p = 1;
+            a.text("X");
+            board[b][c] = p;
             
         } else {
-            z.addClass("oh");
-            
-            /*for (var i = 0; i < winArrays.length; i++) {
-                console.log(winArrays[i]);
-                checkWin(winArrays[i], "oh");
-            }*/
-            
+            p = 2;
+            a.text("O");
+            board[b][c] = p;
         }
-        changePlayer();
-    };
-    
-    var playGame = function () {
-        var clickedCell = $(this).children();
         
-        if (clickedCell.is(".ex, .oh")) {
-            $("#info").text("Choose a different square, gosh!");
+        moveCounter++;
+        
+        if (checkWin(p, b, c) === true) {
+            if (player1 === true) {
+                    displayText.text("X has won the game!");
+                } else {
+                    displayText.text("O has won the game!");
+                }
+                restartBttn.css("visibility", "visible");
+        } else if (moveCounter == 9) {
+            displayText.text("It's a draw! Play again:");
+            restartBttn.css("visibility", "visible");
         } else {
-            $("#info").text("Play On!");
-            
-            makeMove(clickedCell);
+            changePlayer();
         }
-
+        
+        console.log("Played " + a.text() + " At row: " + b + " col: " + c);
+        console.log("Turn " + moveCounter);
     };
     
-    $(".square").on('click', playGame);
+    createBoard();
+    renderBoard();
+
+    $(".square").click(function () {
+        var spaceRow = $(this).attr("row"); /*Get the clicked square's row number.*/
+        var spaceCol = $(this).attr("col"); /*Get the clicked square's column number.*/
+        var chosenSpace = $(this).children(); /*Target the h1 tag within the clicked square.*/
+        
+        if (board[spaceRow][spaceCol] === 0) { /*Check if the clicked square is empty.*/
+            playerMove(chosenSpace, spaceRow, spaceCol);
+        } else {
+            displayText.text("Choose a different square");
+        }
+        
+    });
+    
+    $("#restart").click(function () { /*Resets game to starting state when clicked.*/
+        player1 = true;
+        player2 = false;
+        moveCounter = 0;
+        var x = $(".square").children();
+        x.text("");
+        restartBttn.css("visibility", "hidden");
+        displayText.text("Play On!");
+        for (var i = 0; i < board.length; i++) {
+            for (var j = 0; j < board[i].length; j++) {
+                board[i][j] = 0;
+            }
+        }
+        
+        console.log("New Game!");
+    });
     
 });
