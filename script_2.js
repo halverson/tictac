@@ -3,10 +3,7 @@ $(document).ready(function () {
     var player1 = true,
         player2 = false,
         
-        positions = ["", "", "", "", "", "", "", "", ""],
-        boardFull = [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        
-        board2D =[[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+        board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     
     var changePlayer = function () {
         if (player1 === true) {
@@ -79,12 +76,13 @@ $(document).ready(function () {
         x.text("");
         $("#restart").css("visibility", "hidden");
         $("#info").text("Play On!");
-        for (var i = 0; i < 9; i++) {
-            positions[i] = "";
-            boardFull[i] = 0;
+        for (var i = 0; i < board.length; i++) {
+            for (var j = 0; j < board[i].length; j++) {
+                board[i][j] = 0;
+            }
         }
         
-        console.log("New Game! " + positions + " " + boardFull);
+        console.log("New Game! " + board);
     });
     
 });
