@@ -40,9 +40,17 @@ $(document).ready(function () {
         }
     };
     
-    var checkWin = function (player, row, col) {
+    var checkWin = function (row, col) {
         
-        /*Check if there is a win in the current row*/
+        //Who is the current player?
+        var player;
+        if (player1 === true) {
+            player = 1;
+        } else {
+            player = 2;
+        }
+        
+        //Check if there is a win in the current row
         for (var i = 0; i < n; i++) {
             if (board[row][i] != player) {
                 break;
@@ -52,7 +60,7 @@ $(document).ready(function () {
             }
         }
         
-        /*Check if there is a win in the current column*/
+        //Check if there is a win in the current column
         for (var i = 0; i < n; i++) {
             if (board[i][col] != player) {
                 break;
@@ -62,7 +70,7 @@ $(document).ready(function () {
             }
         }
         
-        /*Check if there is a win in the \ diagonal*/
+        //Check if there is a win in the \ diagonal
         if (row === col) {
             for (var i = 0; i < n; i++) {
                 if (board[i][i] != player) {
@@ -74,7 +82,7 @@ $(document).ready(function () {
             }
         }
         
-        /*Check if there is a win in the anti-diagonal*/
+        //Check if there is a win in the anti-diagonal
         for (var i = 0; i < n; i++) {
             if (board[i][(n - 1) - i] != player) {
                 break;
@@ -86,55 +94,62 @@ $(document).ready(function () {
         
     };
     
-    var playerMove = function (a, b, c) { /*Draw appropriate token and update *board* array.*/
+    var playerMove = function (square, row, col) { /*Draw appropriate token and update *board* array.*/
         
         var p;
         
         if (player1 === true) {
             p = 1;
-            a.text("X");
-            board[b][c] = p;
+            if (board[row][col] === 0) {
+                square.text("X");
+                board[row][col] = p;
+            } else {
+                displayText.text("Choose a different square");
+            }
             
         } else {
             p = 2;
-            a.text("O");
-            board[b][c] = p;
+            if (board[row][col] === 0) {
+                square.text("O");
+                board[row][col] = p;
+            } else {
+                displayText.text("Choose a different square");
+            }
         }
         
         moveCounter++;
-        
-        if (checkWin(p, b, c) === true) {
-            if (player1 === true) {
-                    displayText.text("X has won the game!");
-                } else {
-                    displayText.text("O has won the game!");
-                }
-                restartBttn.css("visibility", "visible");
-        } else if (moveCounter == 9) {
-            displayText.text("It's a draw! Play again:");
-            restartBttn.css("visibility", "visible");
-        } else {
-            changePlayer();
-        }
-        
-        console.log("Played " + a.text() + " At row: " + b + " col: " + c);
-        console.log("Turn " + moveCounter);
     };
     
     createBoard();
     renderBoard();
-
+    
     $(".square").click(function () {
-        var spaceRow = $(this).attr("row"); /*Get the clicked square's row number.*/
-        var spaceCol = $(this).attr("col"); /*Get the clicked square's column number.*/
-        var chosenSpace = $(this).children(); /*Target the h1 tag within the clicked square.*/
-        
-        if (board[spaceRow][spaceCol] === 0) { /*Check if the clicked square is empty.*/
-            playerMove(chosenSpace, spaceRow, spaceCol);
-        } else {
-            displayText.text("Choose a different square");
+        if (moveCounter < 9) {
+            
+            var Row = $(this).attr("row"); /*Get the clicked square's row number.*/
+            var Col = $(this).attr("col"); /*Get the clicked square's column number.*/
+            var chosenSpace = $(this).children(); /*Target the h1 tag within the clicked square.*/
+
+            playerMove(chosenSpace, Row, Col);
+            displayText.text("Play On!");
+            console.log(moveCounter);
+
+            if (checkWin(Row, Col) === true) {
+                if (player1 === true) {
+                        displayText.text("X has won the game!");
+                    } else {
+                        displayText.text("O has won the game!");
+                    }
+                restartBttn.css("visibility", "visible");
+            } else {
+                changePlayer();
+            }
+            
         }
-        
+        if (moveCounter === 9){
+            displayText.text("It's a draw! Play again:");
+            restartBttn.css("visibility", "visible");
+        }
     });
     
     $("#restart").click(function () { /*Resets game to starting state when clicked.*/
@@ -150,8 +165,6 @@ $(document).ready(function () {
                 board[i][j] = 0;
             }
         }
-        
-        console.log("New Game!");
     });
     
 });
