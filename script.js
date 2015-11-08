@@ -98,26 +98,20 @@ $(document).ready(function () {
         
         var p;
         
-        if (player1 === true) {
-            p = 1;
-            if (board[row][col] === 0) {
+        if (board[row][col] === 0) {
+            if (player1 === true) {
+                p = 1;
                 square.text("X");
                 board[row][col] = p;
             } else {
-                displayText.text("Choose a different square");
-            }
-            
-        } else {
-            p = 2;
-            if (board[row][col] === 0) {
+                p = 2;
                 square.text("O");
                 board[row][col] = p;
-            } else {
-                displayText.text("Choose a different square");
             }
+            moveCounter++;
+        } else {
+            displayText.text("Choose another square.");
         }
-        
-        moveCounter++;
     };
     
     createBoard();
