@@ -5,7 +5,7 @@ $(document).ready(function () {
         moveCounter = 0,
         displayText = $("#info"),
         restartBttn = $("#restart"),
-        n = 3;
+        n = 3; //number of squares per side
         
     var board = new Array();
     
@@ -16,11 +16,8 @@ $(document).ready(function () {
                 board[i][j] = 0;
             }
         }
-    };
-    
-    var renderBoard = function () {
         
-        /*Draw board div's and h1's with row and col attributes based on *board* array.*/
+        //Draw board div's and h1's with row and col attributes based on *board* array.
         for (var i = 0; i < n; i++) {
             for (var j = 0; j < n; j++) {
                 $("#board").append("<div class='square'><h1></h1></div>");
@@ -30,13 +27,22 @@ $(document).ready(function () {
         }
     };
     
-    var changePlayer = function () { /*Change who's turn it is when called.*/
-        if (player1 === true) {
+    var changePlayer = function () { //Change who's turn it is when called.
+        if (player1) {
             player1 = false;
             player2 = true;
         } else {
             player1 = true;
             player2 = false;
+        }
+    };
+    
+    var isValidMove = function(row, col) {
+        if (board[row][col] === 0) {
+            return true;
+        } else {
+            displayText.text("Choose a different position!");
+            return false;
         }
     };
     
@@ -94,56 +100,60 @@ $(document).ready(function () {
         
     };
     
+    var checkDraw = function () {
+        if (moveCounter === 9) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+    
     var playerMove = function (square, row, col) { /*Draw appropriate token and update *board* array.*/
         
         var p;
         
-        if (board[row][col] === 0) {
-            if (player1 === true) {
-                p = 1;
-                square.text("X");
-                board[row][col] = p;
-            } else {
-                p = 2;
-                square.text("O");
-                board[row][col] = p;
-            }
-            moveCounter++;
+        if (player1 === true) {
+            p = 1;
+            square.text("X");
+            board[row][col] = p;
         } else {
-            displayText.text("Choose another square.");
+            p = 2;
+            square.text("O");
+            board[row][col] = p;
         }
+        moveCounter++;
     };
     
     createBoard();
-    renderBoard();
     
     $(".square").click(function () {
-        if (moveCounter < 9) {
             
-            var Row = $(this).attr("row"); /*Get the clicked square's row number.*/
-            var Col = $(this).attr("col"); /*Get the clicked square's column number.*/
-            var chosenSpace = $(this).children(); /*Target the h1 tag within the clicked square.*/
-
+        var Row = $(this).attr("row"); /*Get the clicked square's row number.*/
+        var Col = $(this).attr("col"); /*Get the clicked square's column number.*/
+        var chosenSpace = $(this).children(); /*Target the h1 tag within the clicked square.*/
+        
+        if (isValidMove(Row, Col)) {
             playerMove(chosenSpace, Row, Col);
-            displayText.text("Play On!");
-            console.log(moveCounter);
-
-            if (checkWin(Row, Col) === true) {
-                if (player1 === true) {
-                        displayText.text("X has won the game!");
-                    } else {
-                        displayText.text("O has won the game!");
-                    }
+        }
+        
+        var win = checkWin(Row, Col);
+        var draw = checkDraw();
+        if (win) {
+            
+            if (player1) {
+                displayText.text("X wins!");
                 restartBttn.css("visibility", "visible");
             } else {
-                changePlayer();
+                displayText.text("O wins!");
+                restartBttn.css("visibility", "visible");
             }
-            
-        }
-        if (moveCounter === 9){
-            displayText.text("It's a draw! Play again:");
+        } else if (draw) {
+            displayText.text("It's a draw!");
             restartBttn.css("visibility", "visible");
         }
+        
+        changePlayer();
+        console.log(moveCounter);
     });
     
     $("#restart").click(function () { /*Resets game to starting state when clicked.*/
