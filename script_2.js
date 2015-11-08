@@ -5,6 +5,16 @@ $(document).ready(function () {
         
         board = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
     
+    var drawBoard = function () {
+        for (var i = 0; i < board.length; i++) {
+            for (var j = 0; j < board[i].length; j++) {
+                $("#board").append("<div class='square'><h1></h1></div>");
+                $(".square:last-child").attr("row", i);
+                $(".square:last-child").attr("col", j);
+            }
+        }
+    };
+    
     var changePlayer = function () {
         if (player1 === true) {
             player1 = false;
@@ -15,58 +25,32 @@ $(document).ready(function () {
         }
     };
     
-    var checkEmptySpace = function (x) {
-        
-        
-        if (positions[x - 1] === "") {
-            return true;
-        }
-    };
-    
-    var fillBoard = function () {
-        for (var i = 0; i < positions.length; i++) {
-            if (positions[i] === "X" || positions[i] === "O") {
-                boardFull[i] = 1;
-            }
-        }
-    };
-    
-    var isFull = function (element, index, array) {
+    /*var isFull = function (element, index, array) {
         return element == 1;
-    };
+    };*/
     
-    var playerMove = function (a, b) {
+    var playerMove = function (a, b, c) {
         if (player1 === true) {
             a.text("X");
-            positions[b - 1] = "X";
+            board[b][c] = 1;
         } else {
             a.text("O");
-            positions[b - 1] = "O";
+            board[b][c] = 2;
         }
         
-        fillBoard();
-        console.log(b);
-        console.log(positions);
-        console.log(boardFull);
+        console.log(board);
         changePlayer();
     };
+    
+    drawBoard();
 
     $(".square").click(function () {
-        var spaceNum = $(this).attr("id");
+        var spaceRow = $(this).attr("row");
+        var spaceCol = $(this).attr("col");
         var chosenSpace = $(this).children();
-
-        if (checkEmptySpace(spaceNum) === true) {
-            playerMove(chosenSpace, spaceNum);
-            
-            if (boardFull.every(isFull)) {
-                $("#info").text("It's a draw!");
-                $("#restart").css("visibility", "visible");
-            }
-            
-        } else {
-            $("#info").text("Choose a different square");
-            console.log("Space " + spaceNum + " is already taken.");
-        }
+        
+        playerMove(chosenSpace, spaceRow, spaceCol);
+        
     });
     
     $("#restart").click(function () {
