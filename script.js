@@ -5,6 +5,8 @@ $(document).ready(function () {
         moveCounter = 0,
         displayText = $("#info"),
         restartBttn = $("#restart"),
+        winState = false,
+        drawState = false,
         n = 3, //number of squares per side. Change this to change size of board and the number tokens in a row required to win. Would need to work on the css to get this to work automatically.
         board = [];
     
@@ -130,36 +132,41 @@ $(document).ready(function () {
     createBoard();
     
     $(".square").click(function () {
-            
+        
         var Row = $(this).attr("row"); //Get the clicked square's row number.
         var Col = $(this).attr("col"); //Get the clicked square's column number.
         var chosenSpace = $(this).children(); //Target the h1 tag within the clicked square.
         
-        if (isValidMove(Row, Col)) { //Can the player place their piece here?
-            playerMove(chosenSpace, Row, Col); //If so, perform the move and update moveCounter.
+        if (winState !== true && drawState !== true) {
             
-            var win = checkWin(Row, Col); //check the board for win based on most recent move and assign outcome to "win".
-            var draw = checkDraw(); //check if board is full and assign outcome to "draw".
-            
-            if (win) { //if there is a win situation that is true.
+            if (isValidMove(Row, Col)) { //Can the player place their piece here?
+                playerMove(chosenSpace, Row, Col); //If so, perform the move and update moveCounter.
 
-                if (player1) {
-                    displayText.text("X wins!");
+                var win = checkWin(Row, Col); //check the board for win based on most recent move and assign outcome to "win".
+                var draw = checkDraw(); //check if board is full and assign outcome to "draw".
+
+                if (win) { //if there is a win situation that is true.
+                    if (player1) {
+                        displayText.text("X wins!");
+                        restartBttn.css("visibility", "visible");
+                    } else {
+                        displayText.text("O wins!");
+                        restartBttn.css("visibility", "visible");
+                    }
+                    winState = true;
+
+                } else if (draw) { //if there is no win, but there is a draw.
+                    displayText.text("It's a draw!");
                     restartBttn.css("visibility", "visible");
-                } else {
-                    displayText.text("O wins!");
-                    restartBttn.css("visibility", "visible");
+                    drawState = true;
                 }
-                
-            } else if (draw) { //if there is no win, but there is a draw.
-                displayText.text("It's a draw!");
-                restartBttn.css("visibility", "visible");
+
+                changePlayer(); //if there is no win or draw, switch to the next player and exit function.
+
+            } else {
+                displayText.text("Choose a different square");
             }
             
-            changePlayer(); //if there is no win or draw, switch to the next player and exit function.
-            
-        } else {
-            displayText.text("Choose a different square");
         }
         
         console.log(moveCounter);
@@ -168,6 +175,8 @@ $(document).ready(function () {
     $("#restart").click(function () { /*Resets game to starting state when clicked.*/
         player1 = true;
         player2 = false;
+        winState = false;
+        drawState = false;
         moveCounter = 0;
         var x = $(".square").children();
         x.text("");
