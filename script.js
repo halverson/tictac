@@ -168,8 +168,6 @@ $(document).ready(function () {
             }
             
         }
-        
-        console.log(moveCounter);
     });
     
     $("#restart").click(function () { /*Resets game to starting state when clicked.*/
