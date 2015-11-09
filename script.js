@@ -5,19 +5,20 @@ $(document).ready(function () {
         moveCounter = 0,
         displayText = $("#info"),
         restartBttn = $("#restart"),
-        n = 3; //number of squares per side
-        
-    var board = new Array();
+        n = 3, //number of squares per side. Change this to change size of board and the number tokens in a row required to win. Would need to work on the css to get this to work automatically.
+        board = [];
     
     var createBoard = function () {
+        
+        //Generate internal representation of the board to store token positions.
         for (var i = 0; i < n; i++) {
-            board[i] = new Array();
+            board[i] = [];
             for (var j = 0; j < n; j++) {
                 board[i][j] = 0;
             }
         }
         
-        //Draw board div's and h1's with row and col attributes based on *board* array.
+        //Render board div's and h1's to page with row and col attributes based on *board* array.
         for (var i = 0; i < n; i++) {
             for (var j = 0; j < n; j++) {
                 $("#board").append("<div class='square'><h1></h1></div>");
@@ -37,16 +38,15 @@ $(document).ready(function () {
         }
     };
     
-    var isValidMove = function(row, col) {
+    var isValidMove = function(row, col) { //Check to see if the selected space is empty or not.
         if (board[row][col] === 0) {
             return true;
         } else {
-            displayText.text("Choose a different position!");
             return false;
         }
     };
     
-    var checkWin = function (row, col) {
+    var checkWin = function (row, col) { //Function to check if the current player has won, based on the most recent move.
         
         //Who is the current player?
         var player;
@@ -59,9 +59,9 @@ $(document).ready(function () {
         //Check if there is a win in the current row
         for (var i = 0; i < n; i++) {
             if (board[row][i] != player) {
-                break;
+                break; //Forces the for loop to keep iterating through till the next if statement is true.
             }
-            if (i == n - 1) {
+            if (i == n - 1) { //If "i" gets to the end of the row, then that means all positions in the row are equal: win!
                 return true;
             }
         }
@@ -76,8 +76,8 @@ $(document).ready(function () {
             }
         }
         
-        //Check if there is a win in the \ diagonal
-        if (row === col) {
+        //Check if there is a win in the foward diagonal
+        if (row === col) { //determines whether the current move is on the diagonal.
             for (var i = 0; i < n; i++) {
                 if (board[i][i] != player) {
                     break;
@@ -100,7 +100,7 @@ $(document).ready(function () {
         
     };
     
-    var checkDraw = function () {
+    var checkDraw = function () { //Check to see if the board is full.
         if (moveCounter === 9) {
             return true;
         } else {
@@ -108,7 +108,7 @@ $(document).ready(function () {
         }
     };
     
-    var playerMove = function (square, row, col) { /*Draw appropriate token and update *board* array.*/
+    var playerMove = function (square, row, col) { /*Draw appropriate token based on current player, update the board and add 1 to counter.*/
         
         var p;
         
@@ -124,35 +124,44 @@ $(document).ready(function () {
         moveCounter++;
     };
     
+    
+    //Here doth beginith the main game logic.
+    
     createBoard();
     
     $(".square").click(function () {
             
-        var Row = $(this).attr("row"); /*Get the clicked square's row number.*/
-        var Col = $(this).attr("col"); /*Get the clicked square's column number.*/
-        var chosenSpace = $(this).children(); /*Target the h1 tag within the clicked square.*/
+        var Row = $(this).attr("row"); //Get the clicked square's row number.
+        var Col = $(this).attr("col"); //Get the clicked square's column number.
+        var chosenSpace = $(this).children(); //Target the h1 tag within the clicked square.
         
-        if (isValidMove(Row, Col)) {
-            playerMove(chosenSpace, Row, Col);
-        }
-        
-        var win = checkWin(Row, Col);
-        var draw = checkDraw();
-        if (win) {
+        if (isValidMove(Row, Col)) { //Can the player place their piece here?
+            playerMove(chosenSpace, Row, Col); //If so, perform the move and update moveCounter.
             
-            if (player1) {
-                displayText.text("X wins!");
-                restartBttn.css("visibility", "visible");
-            } else {
-                displayText.text("O wins!");
+            var win = checkWin(Row, Col); //check the board for win based on most recent move and assign outcome to "win".
+            var draw = checkDraw(); //check if board is full and assign outcome to "draw".
+            
+            if (win) { //if there is a win situation that is true.
+
+                if (player1) {
+                    displayText.text("X wins!");
+                    restartBttn.css("visibility", "visible");
+                } else {
+                    displayText.text("O wins!");
+                    restartBttn.css("visibility", "visible");
+                }
+                
+            } else if (draw) { //if there is no win, but there is a draw.
+                displayText.text("It's a draw!");
                 restartBttn.css("visibility", "visible");
             }
-        } else if (draw) {
-            displayText.text("It's a draw!");
-            restartBttn.css("visibility", "visible");
+            
+            changePlayer(); //if there is no win or draw, switch to the next player and exit function.
+            
+        } else {
+            displayText.text("Choose a different square");
         }
         
-        changePlayer();
         console.log(moveCounter);
     });
     
