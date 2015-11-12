@@ -11,7 +11,6 @@ $(document).ready(function () {
         board = [];
     
     function createBoard () {
-        
         //Generate internal representation of the board to store token positions.
         for (var i = 0; i < n; i++) {
             board[i] = [];
@@ -28,6 +27,9 @@ $(document).ready(function () {
                 $(".square:last-child").attr("col", j);
             }
         }
+        var size = 100 / n + "%";
+        $(".square").css("width",size);
+        $(".square").css("height",size);
     };
     
     function changePlayer () { //Change who's turn it is when called.
@@ -103,7 +105,7 @@ $(document).ready(function () {
     };
     
     function checkDraw () { //Check to see if the board is full.
-        if (moveCounter === 9) {
+        if (moveCounter === n*n) {
             return true;
         } else {
             return false;
@@ -129,6 +131,7 @@ $(document).ready(function () {
     
     //Here doth beginith the main game logic.
     
+    $("#title").text("Tic Tac Toe, " + n + "in a row!");
     createBoard();
     
     $(".square").click(function () {
