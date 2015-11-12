@@ -77,6 +77,7 @@ $(document).ready(function () {
                 break;
             }
             if (i == n - 1) {
+                $(".square").filter(function(){return $(this).attr("col") == col;}).addClass("winSquare");
                 return true;
             }
         }
