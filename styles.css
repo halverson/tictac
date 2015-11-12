@@ -32,6 +32,10 @@ h2 {
     font-size: 32pt;
 }
 
+h3 {
+    display: inline-block;
+}
+
 .wrapper {
     display: -webkit-box;
     display: -webkit-flex;
@@ -107,22 +111,8 @@ h1 {
     margin: 0;
 }
 
-.ex {
-    color: #89C766;
-}
-
-.ex:before {
-    content: "X";
-}
-
-.oh {
-    color: #3E96B5;
-}
-
-.oh:before {
-    content: "O";
-}
-
 #restart {
-    visibility: hidden;
+    display: none;
+    padding: 0.5em;
+    margin-left: 1em;
 }

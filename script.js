@@ -163,16 +163,16 @@ $(document).ready(function () {
                 if (win) { //if there is a win situation that is true.
                     if (player1) {
                         displayText.text("X wins!");
-                        restartBttn.css("visibility", "visible");
+                        restartBttn.css("display", "inline-block");
                     } else {
                         displayText.text("O wins!");
-                        restartBttn.css("visibility", "visible");
+                        restartBttn.css("display", "inline-block");
                     }
                     winState = true;
 
                 } else if (draw) { //if there is no win, but there is a draw.
                     displayText.text("It's a draw!");
-                    restartBttn.css("visibility", "visible");
+                    restartBttn.css("display", "inline-block");
                     drawState = true;
                 }
 
@@ -194,7 +194,7 @@ $(document).ready(function () {
         var x = $(".square").children();
         x.text("");
         $(".square").removeClass("winSquare");
-        restartBttn.css("visibility", "hidden");
+        restartBttn.css("display", "none");
         displayText.text("Play On!");
         for (var i = 0; i < board.length; i++) {
             for (var j = 0; j < board[i].length; j++) {
