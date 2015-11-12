@@ -66,7 +66,9 @@ $(document).ready(function () {
                 break; //Forces the for loop to keep iterating through till the next if statement is true.
             }
             if (i == n - 1) { //If "i" gets to the end of the row, then that means all positions in the row are equal: win!
-                $(".square").filter(function(){return $(this).attr("row") == row;}).addClass("winSquare");
+                $(".square").filter(function(){
+                    return $(this).attr("row") == row;
+                }).addClass("winSquare");
                 return true;
             }
         }
@@ -77,7 +79,9 @@ $(document).ready(function () {
                 break;
             }
             if (i == n - 1) {
-                $(".square").filter(function(){return $(this).attr("col") == col;}).addClass("winSquare");
+                $(".square").filter(function(){
+                    return $(this).attr("col") == col;
+                }).addClass("winSquare");
                 return true;
             }
         }
