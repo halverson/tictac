@@ -66,6 +66,7 @@ $(document).ready(function () {
                 break; //Forces the for loop to keep iterating through till the next if statement is true.
             }
             if (i == n - 1) { //If "i" gets to the end of the row, then that means all positions in the row are equal: win!
+                $(".square").filter(function(){return $(this).attr("row") == row;}).addClass("winSquare");
                 return true;
             }
         }
@@ -181,6 +182,7 @@ $(document).ready(function () {
         moveCounter = 0;
         var x = $(".square").children();
         x.text("");
+        $(".square").removeClass("winSquare");
         restartBttn.css("visibility", "hidden");
         displayText.text("Play On!");
         for (var i = 0; i < board.length; i++) {

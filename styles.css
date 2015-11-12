@@ -94,6 +94,11 @@ h2 {
 
 .winSquare {
     background-color: #7db136;
+    color: white;
+}
+
+.winSquare:hover {
+    background-color: #699a27;
 }
 
 h1 {
