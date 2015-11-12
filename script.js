@@ -131,7 +131,7 @@ $(document).ready(function () {
     
     //Here doth beginith the main game logic.
     
-    $("#title").text("Tic Tac Toe, " + n + "in a row!");
+    $("#title").text("Tic Tac Toe, " + n + " in a row!");
     createBoard();
     
     $(".square").click(function () {
