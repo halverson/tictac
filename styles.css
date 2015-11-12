@@ -55,14 +55,15 @@ h2 {
             align-items: center;
     
     padding: 1em;
-    width: 20em;
-    height: 20em;
-    
+    width: 30em;
+    height: 30em;
+    margin: 0;
     background-color: gray;
     border-radius: 10px;
 }
 
 .square {
+    box-sizing: border-box;
     display: -webkit-box;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -80,13 +81,10 @@ h2 {
     -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
-    
     padding: 0;
     margin: 0;
-    width: 32%;
-    height: 32%;
     background-color: white;
-    border: 1px solid gray;
+    border: solid 1px gray;
 }
 
 .square:hover {
