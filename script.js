@@ -89,6 +89,9 @@ $(document).ready(function () {
                     break;
                 }
                 if (i == n - 1) {
+                    $(".square").filter(function(){
+                        return $(this).attr("col") == $(this).attr("row");
+                    }).addClass("winSquare");
                     return true;
                 }
             }
@@ -100,6 +103,9 @@ $(document).ready(function () {
                 break;
             }
             if (i == n - 1) {
+                $(".square").filter(function(){
+                    return $(this).attr("col") == (n-1) - $(this).attr("row");
+                }).addClass("winSquare");
                 return true;
             }
         }
