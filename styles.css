@@ -20,6 +20,7 @@ body {
             justify-content: center;
     
     height: 100vh;
+    width: 100%;
     padding: 0;
     margin: 0;
     
@@ -30,6 +31,10 @@ body {
 
 h2 {
     font-size: 32pt;
+}
+
+h3 {
+    display: inline-block;
 }
 
 .wrapper {
@@ -94,6 +99,11 @@ h2 {
 
 .winSquare {
     background-color: #7db136;
+    color: white;
+}
+
+.winSquare:hover {
+    background-color: #699a27;
 }
 
 h1 {
@@ -102,22 +112,42 @@ h1 {
     margin: 0;
 }
 
-.ex {
-    color: #89C766;
-}
-
-.ex:before {
-    content: "X";
-}
-
-.oh {
-    color: #3E96B5;
-}
-
-.oh:before {
-    content: "O";
-}
-
 #restart {
-    visibility: hidden;
+    display: none;
+    padding: 0.5em;
+    margin-left: 1em;
+}
+
+@media screen and (min-width: 600px) {
+    .wrapper {
+        width: 30em;
+        height: 30em;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .wrapper {
+        width: 20em;
+        height: 20em;
+    }
+    
+    h1 {
+        font-size: 24pt;
+    }
+    
+    h2 {
+        text-align: center;
+        font-size: 24pt;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .wrapper {
+        width: 15em;
+        height: 15em;
+    }
+    
+    h2 {
+        font-size: 21pt;
+    }
 }

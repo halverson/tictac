@@ -66,6 +66,9 @@ $(document).ready(function () {
                 break; //Forces the for loop to keep iterating through till the next if statement is true.
             }
             if (i == n - 1) { //If "i" gets to the end of the row, then that means all positions in the row are equal: win!
+                $(".square").filter(function(){
+                    return $(this).attr("row") == row;
+                }).addClass("winSquare");
                 return true;
             }
         }
@@ -76,6 +79,9 @@ $(document).ready(function () {
                 break;
             }
             if (i == n - 1) {
+                $(".square").filter(function(){
+                    return $(this).attr("col") == col;
+                }).addClass("winSquare");
                 return true;
             }
         }
@@ -87,6 +93,9 @@ $(document).ready(function () {
                     break;
                 }
                 if (i == n - 1) {
+                    $(".square").filter(function(){
+                        return $(this).attr("col") == $(this).attr("row");
+                    }).addClass("winSquare");
                     return true;
                 }
             }
@@ -98,6 +107,9 @@ $(document).ready(function () {
                 break;
             }
             if (i == n - 1) {
+                $(".square").filter(function(){
+                    return $(this).attr("col") == (n-1) - $(this).attr("row");
+                }).addClass("winSquare");
                 return true;
             }
         }
@@ -151,16 +163,16 @@ $(document).ready(function () {
                 if (win) { //if there is a win situation that is true.
                     if (player1) {
                         displayText.text("X wins!");
-                        restartBttn.css("visibility", "visible");
+                        restartBttn.css("display", "inline-block");
                     } else {
                         displayText.text("O wins!");
-                        restartBttn.css("visibility", "visible");
+                        restartBttn.css("display", "inline-block");
                     }
                     winState = true;
 
                 } else if (draw) { //if there is no win, but there is a draw.
                     displayText.text("It's a draw!");
-                    restartBttn.css("visibility", "visible");
+                    restartBttn.css("display", "inline-block");
                     drawState = true;
                 }
 
@@ -181,7 +193,8 @@ $(document).ready(function () {
         moveCounter = 0;
         var x = $(".square").children();
         x.text("");
-        restartBttn.css("visibility", "hidden");
+        $(".square").removeClass("winSquare");
+        restartBttn.css("display", "none");
         displayText.text("Play On!");
         for (var i = 0; i < board.length; i++) {
             for (var j = 0; j < board[i].length; j++) {
