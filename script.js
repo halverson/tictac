@@ -10,7 +10,7 @@ $(document).ready(function () {
         n = 3, //number of squares per side. Change this to change size of board and the number tokens in a row required to win. Would need to work on the css to get this to work automatically.
         board = [];
     
-    var createBoard = function () {
+    function createBoard () {
         
         //Generate internal representation of the board to store token positions.
         for (var i = 0; i < n; i++) {
@@ -30,7 +30,7 @@ $(document).ready(function () {
         }
     };
     
-    var changePlayer = function () { //Change who's turn it is when called.
+    function changePlayer () { //Change who's turn it is when called.
         if (player1) {
             player1 = false;
             player2 = true;
@@ -40,7 +40,7 @@ $(document).ready(function () {
         }
     };
     
-    var isValidMove = function(row, col) { //Check to see if the selected space is empty or not.
+    function isValidMove (row, col) { //Check to see if the selected space is empty or not.
         if (board[row][col] === 0) {
             return true;
         } else {
@@ -48,7 +48,7 @@ $(document).ready(function () {
         }
     };
     
-    var checkWin = function (row, col) { //Function to check if the current player has won, based on the most recent move.
+    function checkWin (row, col) { //Function to check if the current player has won, based on the most recent move.
         
         //Who is the current player?
         var player;
@@ -102,7 +102,7 @@ $(document).ready(function () {
         
     };
     
-    var checkDraw = function () { //Check to see if the board is full.
+    function checkDraw () { //Check to see if the board is full.
         if (moveCounter === 9) {
             return true;
         } else {
@@ -110,7 +110,7 @@ $(document).ready(function () {
         }
     };
     
-    var playerMove = function (square, row, col) { /*Draw appropriate token based on current player, update the board and add 1 to counter.*/
+    function playerMove (square, row, col) { /*Draw appropriate token based on current player, update the board and add 1 to counter.*/
         
         var p;
         
