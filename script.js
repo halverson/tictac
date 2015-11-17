@@ -31,7 +31,7 @@ $(document).ready(function () {
         var size = 100 / n + "%";
         $(".square").css("width",size);
         $(".square").css("height",size);
-    };
+    }
 
     function changePlayer () { //Change who's turn it is when called.
         if (player1) {
@@ -41,7 +41,7 @@ $(document).ready(function () {
             player1 = true;
             player2 = false;
         }
-    };
+    }
 
     function isValidMove (row, col) { //Check to see if the selected space is empty or not.
         if (board[row][col] === 0) {
@@ -49,7 +49,7 @@ $(document).ready(function () {
         } else {
             return false;
         }
-    };
+    }
 
     function checkWin (row, col) { //Function to check if the current player has won, based on the most recent move.
 
@@ -115,7 +115,7 @@ $(document).ready(function () {
             }
         }
 
-    };
+    }
 
     function checkDraw () { //Check to see if the board is full.
         if (moveCounter === n*n) {
@@ -123,7 +123,7 @@ $(document).ready(function () {
         } else {
             return false;
         }
-    };
+    }
 
     function playerMove (square, row, col) { /*Draw appropriate token based on current player, update the board and add 1 to counter.*/
 
@@ -139,7 +139,7 @@ $(document).ready(function () {
             board[row][col] = p;
         }
         moveCounter++;
-    };
+    }
 
 
     //Here doth beginith the main game logic.
