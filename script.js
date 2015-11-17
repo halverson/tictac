@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    
+
     var player1 = true,
         player2 = false,
         moveCounter = 0,
@@ -7,9 +7,9 @@ $(document).ready(function () {
         restartBttn = $("#restart"),
         winState = false,
         drawState = false,
-        n = 3, //number of squares per side. Change this to change size of board and the number tokens in a row required to win. Would need to work on the css to get this to work automatically.
+        n = 3, //number of squares per side. Change this to change size of board and the number of tokens in a row required to win.
         board = [];
-    
+
     function createBoard () {
         //Generate internal representation of the board to store token positions.
         for (var i = 0; i < n; i++) {
@@ -18,7 +18,7 @@ $(document).ready(function () {
                 board[i][j] = 0;
             }
         }
-        
+
         //Render board div's and h1's to page with row and col attributes based on *board* array.
         for (var i = 0; i < n; i++) {
             for (var j = 0; j < n; j++) {
@@ -27,11 +27,12 @@ $(document).ready(function () {
                 $(".square:last-child").attr("col", j);
             }
         }
+        //change the size of the squares (percentage based) depending on length of board side.
         var size = 100 / n + "%";
         $(".square").css("width",size);
         $(".square").css("height",size);
     };
-    
+
     function changePlayer () { //Change who's turn it is when called.
         if (player1) {
             player1 = false;
@@ -41,7 +42,7 @@ $(document).ready(function () {
             player2 = false;
         }
     };
-    
+
     function isValidMove (row, col) { //Check to see if the selected space is empty or not.
         if (board[row][col] === 0) {
             return true;
@@ -49,9 +50,9 @@ $(document).ready(function () {
             return false;
         }
     };
-    
+
     function checkWin (row, col) { //Function to check if the current player has won, based on the most recent move.
-        
+
         //Who is the current player?
         var player;
         if (player1 === true) {
@@ -59,7 +60,7 @@ $(document).ready(function () {
         } else {
             player = 2;
         }
-        
+
         //Check if there is a win in the current row
         for (var i = 0; i < n; i++) {
             if (board[row][i] != player) {
@@ -72,7 +73,7 @@ $(document).ready(function () {
                 return true;
             }
         }
-        
+
         //Check if there is a win in the current column
         for (var i = 0; i < n; i++) {
             if (board[i][col] != player) {
@@ -85,7 +86,7 @@ $(document).ready(function () {
                 return true;
             }
         }
-        
+
         //Check if there is a win in the foward diagonal
         if (row === col) { //determines whether the current move is on the diagonal.
             for (var i = 0; i < n; i++) {
@@ -100,7 +101,7 @@ $(document).ready(function () {
                 }
             }
         }
-        
+
         //Check if there is a win in the anti-diagonal
         for (var i = 0; i < n; i++) {
             if (board[i][(n - 1) - i] != player) {
@@ -113,9 +114,9 @@ $(document).ready(function () {
                 return true;
             }
         }
-        
+
     };
-    
+
     function checkDraw () { //Check to see if the board is full.
         if (moveCounter === n*n) {
             return true;
@@ -123,11 +124,11 @@ $(document).ready(function () {
             return false;
         }
     };
-    
+
     function playerMove (square, row, col) { /*Draw appropriate token based on current player, update the board and add 1 to counter.*/
-        
+
         var p;
-        
+
         if (player1 === true) {
             p = 1;
             square.text("X");
@@ -139,21 +140,21 @@ $(document).ready(function () {
         }
         moveCounter++;
     };
-    
-    
+
+
     //Here doth beginith the main game logic.
-    
+
     $("#title").text("Tic Tac Toe, " + n + " in a row!");
     createBoard();
-    
+
     $(".square").click(function () {
-        
+
         var Row = $(this).attr("row"); //Get the clicked square's row number.
         var Col = $(this).attr("col"); //Get the clicked square's column number.
         var chosenSpace = $(this).children(); //Target the h1 tag within the clicked square.
-        
+
         if (winState !== true && drawState !== true) {
-            
+
             if (isValidMove(Row, Col)) { //Can the player place their piece here?
                 playerMove(chosenSpace, Row, Col); //If so, perform the move and update moveCounter.
 
@@ -181,10 +182,10 @@ $(document).ready(function () {
             } else {
                 displayText.text("Choose a different square");
             }
-            
+
         }
     });
-    
+
     $("#restart").click(function () { /*Resets game to starting state when clicked.*/
         player1 = true;
         player2 = false;
@@ -202,5 +203,5 @@ $(document).ready(function () {
             }
         }
     });
-    
+
 });
