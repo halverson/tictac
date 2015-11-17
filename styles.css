@@ -129,6 +129,7 @@ h1 {
     .wrapper {
         width: 20em;
         height: 20em;
+        padding: 0.7em;
     }
     
     h1 {
@@ -145,6 +146,7 @@ h1 {
     .wrapper {
         width: 15em;
         height: 15em;
+        padding: 0.4em;
     }
     
     h2 {
