@@ -18,12 +18,12 @@ body {
     -webkit-justify-content: center;
         -ms-flex-pack: center;
             justify-content: center;
-    
+
     height: 100vh;
     width: 100%;
     padding: 0;
     margin: 0;
-    
+
     font-family: sans-serif;
     font-size: 1em;
     color: gray;
@@ -58,7 +58,7 @@ h3 {
     -webkit-align-items: center;
         -ms-flex-align: center;
             align-items: center;
-    
+
     padding: 1em;
     width: 30em;
     height: 30em;
@@ -97,13 +97,22 @@ h3 {
     cursor: pointer;
 }
 
-.winSquare {
+.winSquare_X {
     background-color: #7db136;
     color: white;
 }
 
-.winSquare:hover {
+.winSquare_X:hover {
     background-color: #699a27;
+}
+
+.winSquare_O {
+  background-color: #FD6641;
+  color: white;
+}
+
+.winSquare_O:hover {
+    background-color: #D15435;
 }
 
 h1 {
@@ -131,11 +140,11 @@ h1 {
         height: 20em;
         padding: 0.7em;
     }
-    
+
     h1 {
         font-size: 24pt;
     }
-    
+
     h2 {
         text-align: center;
         font-size: 24pt;
@@ -148,7 +157,7 @@ h1 {
         height: 15em;
         padding: 0.4em;
     }
-    
+
     h2 {
         font-size: 21pt;
     }

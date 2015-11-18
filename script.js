@@ -51,6 +51,43 @@ $(document).ready(function () {
         }
     }
 
+    function fillRowCol (dir, x) {
+        //get the correct squares in the win combo
+        var win = $(".square").filter(function(){
+            return $(this).attr(dir) == x;
+        });
+        //determine whose turn it is and paint appropriate color
+        if (player1) {
+            win.addClass("winSquare_X");
+        } else {
+            win.addClass("winSquare_O");
+        }
+    }
+
+    function fillDiag () {
+        var win = $(".square").filter(function(){
+            return $(this).attr("col") == $(this).attr("row");
+        });
+
+        if (player1) {
+            win.addClass("winSquare_X");
+        } else {
+            win.addClass("winSquare_O");
+        }
+    }
+
+    function fillAntiDiag () {
+        var win = $(".square").filter(function(){
+            return $(this).attr("col") == (n-1) - $(this).attr("row");
+        });
+
+        if (player1) {
+            win.addClass("winSquare_X");
+        } else {
+            win.addClass("winSquare_O");
+        }
+    }
+
     function checkWin (row, col) { //Function to check if the current player has won, based on the most recent move.
 
         //Who is the current player?
@@ -67,9 +104,7 @@ $(document).ready(function () {
                 break; //Forces the for loop to keep iterating through till the next if statement is true.
             }
             if (i == n - 1) { //If "i" gets to the end of the row, then that means all positions in the row are equal: win!
-                $(".square").filter(function(){
-                    return $(this).attr("row") == row;
-                }).addClass("winSquare");
+                fillRowCol("row", row);
                 return true;
             }
         }
@@ -80,9 +115,7 @@ $(document).ready(function () {
                 break;
             }
             if (i == n - 1) {
-                $(".square").filter(function(){
-                    return $(this).attr("col") == col;
-                }).addClass("winSquare");
+                fillRowCol("col", col);
                 return true;
             }
         }
@@ -94,9 +127,7 @@ $(document).ready(function () {
                     break;
                 }
                 if (i == n - 1) {
-                    $(".square").filter(function(){
-                        return $(this).attr("col") == $(this).attr("row");
-                    }).addClass("winSquare");
+                    fillDiag();
                     return true;
                 }
             }
@@ -108,9 +139,7 @@ $(document).ready(function () {
                 break;
             }
             if (i == n - 1) {
-                $(".square").filter(function(){
-                    return $(this).attr("col") == (n-1) - $(this).attr("row");
-                }).addClass("winSquare");
+                fillAntiDiag();
                 return true;
             }
         }
@@ -142,7 +171,7 @@ $(document).ready(function () {
     }
 
 
-    //Here doth beginith the main game logic.
+    //Here doth begineth the main game logic.
 
     $("#title").text("Tic Tac Toe, " + n + " in a row!");
     createBoard();
@@ -194,7 +223,8 @@ $(document).ready(function () {
         moveCounter = 0;
         var x = $(".square").children();
         x.text("");
-        $(".square").removeClass("winSquare");
+        $(".square").removeClass("winSquare_X");
+        $(".square").removeClass("winSquare_O");
         restartBttn.css("display", "none");
         displayText.text("Play On!");
         for (var i = 0; i < board.length; i++) {
