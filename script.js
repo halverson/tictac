@@ -20,11 +20,11 @@ $(document).ready(function () {
         }
 
         //Render board div's and h1's to page with row and col attributes based on *board* array.
-        for (var i = 0; i < n; i++) {
-            for (var j = 0; j < n; j++) {
+        for (var k = 0; k < n; k++) {
+            for (var l = 0; l < n; l++) {
                 $("#board").append("<div class='square'><h1></h1></div>");
-                $(".square:last-child").attr("row", i);
-                $(".square:last-child").attr("col", j);
+                $(".square:last-child").attr("row", k);
+                $(".square:last-child").attr("col", l);
             }
         }
         //change the size of the squares (percentage based) depending on length of board side.
@@ -110,11 +110,11 @@ $(document).ready(function () {
         }
 
         //Check if there is a win in the current column
-        for (var i = 0; i < n; i++) {
-            if (board[i][col] != player) {
+        for (var j = 0; j < n; j++) {
+            if (board[j][col] != player) {
                 break;
             }
-            if (i == n - 1) {
+            if (j == n - 1) {
                 fillRowCol("col", col);
                 return true;
             }
@@ -122,11 +122,11 @@ $(document).ready(function () {
 
         //Check if there is a win in the foward diagonal
         if (row === col) { //determines whether the current move is on the diagonal.
-            for (var i = 0; i < n; i++) {
-                if (board[i][i] != player) {
+            for (var k = 0; k < n; k++) {
+                if (board[k][k] != player) {
                     break;
                 }
-                if (i == n - 1) {
+                if (k == n - 1) {
                     fillDiag();
                     return true;
                 }
@@ -134,11 +134,11 @@ $(document).ready(function () {
         }
 
         //Check if there is a win in the anti-diagonal
-        for (var i = 0; i < n; i++) {
-            if (board[i][(n - 1) - i] != player) {
+        for (var l = 0; l < n; l++) {
+            if (board[l][(n - 1) - l] != player) {
                 break;
             }
-            if (i == n - 1) {
+            if (l == n - 1) {
                 fillAntiDiag();
                 return true;
             }
